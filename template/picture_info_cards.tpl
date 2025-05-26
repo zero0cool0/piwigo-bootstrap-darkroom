@@ -4,6 +4,14 @@
         <div class="card-body">
           <h5 class="card-title">{'Information'|@translate}</h5>
           <div id="info-content" class="d-flex flex-column">
+{if isset($PDF_NB_PAGES) and $current.path_ext=="pdf" }
+            <div id="Pages" class="imageInfo">
+              <dl class="row mb-0">
+                <dt class="col-sm-5">{'Pages'|@translate}</dt>
+                <dd class="col-sm-7">{$PDF_NB_PAGES}</dd>
+              </dl>
+            </div>
+{/if}
 {if $display_info.author and isset($INFO_AUTHOR)}
             <div id="Author" class="imageInfo">
               <dl class="row mb-0">
@@ -141,42 +149,6 @@
               </dl>
             </div>
 {/if}
-{if $display_info.privacy_level and isset($available_permission_levels)}
-{combine_script id='core.scripts' load='async' path='themes/default/js/scripts.js'}
-{footer_script require='jquery'}{strip}
-    function setPrivacyLevel(id, level, label) {
-    (new PwgWS('{$ROOT_URL}')).callService(
-        "pwg.images.setPrivacyLevel", { image_id:id, level:level},
-        {
-            method: "POST",
-            onFailure: function(num, text) { alert(num + " " + text); },
-            onSuccess: function(result) {
-                jQuery('#dropdownPermissions').html(label);
-                jQuery('.permission-li').removeClass('active');
-                jQuery('#permission-' + level).addClass('active');
-            }
-        }
-    );
-    }
-{/strip}{/footer_script}
-            <div id="Privacy" class="imageInfo">
-              <dl class="row mb-0">
-                <dt class="col-sm-5">{'Who can see this photo?'|@translate}</dt>
-                <dd class="col-sm-7">
-                  <div class="dropdown">
-                    <button class="btn btn-primary btn-raised dropdown-toggle ellipsis" type="button" id="dropdownPermissions" data-toggle="dropdown" aria-expanded="true">
-                      {$available_permission_levels[$current.level]}
-                    </button>
-                    <div class="dropdown-menu" role="menu" aria-labelledby="dropdownPermissions">
-{foreach from=$available_permission_levels item=label key=level}
-                      <a id="permission-{$level}" class="dropdown-item permission-li {if $current.level == $level} active{/if}" href="javascript:setPrivacyLevel({$current.id},{$level},'{$label}')">{$label}</a>
-{/foreach}
-                    </div>
-                  </div>
-                </dd>
-              </dl>
-            </div>
-{/if}
           </div>
         </div>
       </div>
@@ -192,7 +164,7 @@
 {/if}
     </div>
 
-{if isset($metadata) || (isset($comment_add) || $COMMENT_COUNT > 0)}
+{if isset($metadata) || (isset($comment_add) || !empty($COMMENT_COUNT))}
     <div id="infopanel-right" class="col-lg-6 col-12">
     <!-- metadata -->
 {if isset($metadata)}

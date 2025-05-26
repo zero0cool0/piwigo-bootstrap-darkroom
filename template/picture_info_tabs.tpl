@@ -7,7 +7,7 @@
         <li class="nav-item"><a class="flex-sm-fill text-sm-center nav-link" href="#tab_metadata" aria-controls="tab_metadata" role="tab" data-toggle="tab">{'EXIF Metadata'|@translate}</a></li>
 {/if}
 {/if}
-{if isset($comment_add) || $COMMENT_COUNT > 0}
+{if isset($comment_add) || !empty($COMMENT_COUNT)}
         <li class="nav-item{if $theme_config->picture_info == 'disabled' || ($theme_config->picture_info != 'tabs' && get_device() == 'desktop')} active{/if}"><a class="flex-sm-fill text-sm-center nav-link" href="#tab_comments" aria-controls="tab_comments" role="tab" data-toggle="tab">{'Comments'|@translate} <span class="badge badge-secondary">{$COMMENT_COUNT}</span></a></li>
 {/if}
       </ul>
@@ -35,6 +35,12 @@
                     <th scope="row">{'Copyright'|@translate}</th>
                     <td><div id="Copyright" class="imageInfo">{if isset($CR_INFO_URL)}<a href="{$CR_INFO_URL}">{$CR_INFO_NAME}</a>{else}{$CR_INFO_NAME}{/if}</div></td>
                   </tr>
+{/if}
+{if isset($PDF_NB_PAGES) and $current.path_ext=="pdf" }
+              <tr id="Pages" class="imageInfo">
+                <th>{'Pages'|@translate}</dt>
+                <td>{$PDF_NB_PAGES}</td>
+              </tr>
 {/if}
 {if $display_info.rating_score and isset($rate_summary)}
                   <tr>
@@ -154,42 +160,6 @@
                     </td>
                   </tr>
 {/if}
-{if $display_info.privacy_level and isset($available_permission_levels)}
-{combine_script id='core.scripts' load='async' path='themes/default/js/scripts.js'}
-{footer_script require='jquery'}{strip}
-    function setPrivacyLevel(id, level, label) {
-    (new PwgWS('{$ROOT_URL}')).callService(
-        "pwg.images.setPrivacyLevel", { image_id:id, level:level},
-        {
-            method: "POST",
-            onFailure: function(num, text) { alert(num + " " + text); },
-            onSuccess: function(result) {
-                jQuery('#dropdownPermissions').html(label);
-                jQuery('.permission-li').removeClass('active');
-                jQuery('#permission-' + level).addClass('active');
-            }
-        }
-    );
-    }
-{/strip}{/footer_script}
-                  <tr>
-                    <th scope="row">{'Who can see this photo?'|@translate}</th>
-                    <td>
-                      <div id="Privacy" class="imageInfo">
-                        <div class="dropdown">
-                          <button class="btn btn-secondary btn-raised dropdown-toggle ellipsis" type="button" id="dropdownPermissions" data-toggle="dropdown" aria-expanded="true">
-                            {$available_permission_levels[$current.level]}
-                          </button>
-                          <div class="dropdown-menu" role="menu" aria-labelledby="dropdownPermissions">
-{foreach from=$available_permission_levels item=label key=level}
-                            <a id="permission-{$level}" class="dropdown-item permission-li {if $current.level == $level} active{/if}" href="javascript:setPrivacyLevel({$current.id},{$level},'{$label}')">{$label}</a>
-{/foreach}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-{/if}
                 </tbody>
               </table>
             </div>
@@ -224,7 +194,7 @@
 {/if}
 
         <!-- comments -->
-{if isset($comment_add) || $COMMENT_COUNT > 0}
+{if isset($comment_add) || !empty($COMMENT_COUNT)}
         <div role="tabpanel" class="tab-pane" id="tab_comments">
           {include file='picture_info_comments.tpl'}
         </div>

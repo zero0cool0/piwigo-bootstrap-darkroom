@@ -44,6 +44,7 @@ class Config {
     const KEY_QUICKSEARCH_NAVBAR = 'quicksearch_navbar';
     const KEY_CAT_DESCRIPTIONS = 'cat_descriptions';
     const KEY_CAT_NB_IMAGES = 'cat_nb_images';
+    const KEY_THUMBNAIL_NB_IMAGES = 'thumbnail_nb_images';
 
     const KEY_SOCIAL_ENABLED = 'social_enabled';
     const KEY_SOCIAL_BUTTONS = 'social_buttons';
@@ -86,7 +87,7 @@ class Config {
         self::KEY_CATEGORY_WELLS => 'never',
         self::KEY_LOGO_IMAGE_ENABLED => false,
         self::KEY_LOGO_IMAGE_PATH => '',
-        self::KEY_QUICKSEARCH_NAVBAR => false,
+        self::KEY_QUICKSEARCH_NAVBAR => true,
         self::KEY_CAT_DESCRIPTIONS => false,
         self::KEY_CAT_NB_IMAGES => true,
         self::KEY_SOCIAL_ENABLED => true,
@@ -99,6 +100,7 @@ class Config {
         self::KEY_COMMENTS_DISQUS_SHORTNAME => null,
         self::KEY_TAG_CLOUD_TYPE => 'basic',
         self::KEY_CUSTOM_CSS => null,
+        self::KEY_THUMBNAIL_NB_IMAGES => false,
     );
 
     private $types = array(
@@ -142,6 +144,7 @@ class Config {
         self::KEY_COMMENTS_DISQUS_SHORTNAME => self::TYPE_STRING,
         self::KEY_TAG_CLOUD_TYPE => self::TYPE_STRING,
         self::KEY_CUSTOM_CSS => self::TYPE_FILE,
+        self::KEY_THUMBNAIL_NB_IMAGES => self::TYPE_BOOL,
     );
 
     private $config = array();
@@ -213,6 +216,11 @@ class Config {
         } else {
             return null;
         }
+    }
+
+    public function __isset($key)
+    {
+      return isset($this->config[$key]);
     }
 
     public function fromPost(array $post) {

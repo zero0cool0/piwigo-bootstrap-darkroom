@@ -1,0 +1,73 @@
+/* Search page */
+.filetypes-option label .ext-badge,
+.added_by-option label .added_by-badge,
+.date_posted-badge,
+.date_created-badge,
+.ratios-option label .ratio-badge,
+.ratings-option label .ratings-badge{
+  background-color:var(--primary) !important;
+}
+
+.filetypes-option label .checked-icon,
+.added_by-option label .checked-icon,
+.date_posted-option label .checked-icon,
+.date_created-option label .checked-icon,
+.ratios-option label .checked-icon,
+.ratings-option label .checked-icon{
+  color:var(--primary) !important;
+}
+
+.date_posted-option .accordion-toggle:hover{
+  color:var(--white);
+}
+
+.preset_posted_date .date_posted-option input:checked + label,
+.custom_posted_date .selected input:checked,
+.preset_created_date .date_created-option input:checked + label,
+.custom_created_date .selected input:checked,
+.added_by-option input:checked + label,
+.filetypes-option input:checked + label,
+.date_posted-option .selected label,
+.date_posted-option .selected .accordion-toggle,
+.date_created-option .selected label,
+.date_created-option .selected .accordion-toggle, 
+.ratios-option input:checked + label,
+.ratings-option input:checked + label{
+  background: var(--secondary) !important;
+}
+
+.slider-info{
+  color:#bbb!important;
+}
+.ui-state-default, .ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-slider-range.ui-widget-header.ui-corner-all{
+  border: 1px solid var(--primary);
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-slider .ui-slider-range{
+  background: var(--primary);
+}
+
+.mcs-container input[type="number"],
+.mcs-container input[type="number"]:focus{
+  background-color:#777;
+  color:black;
+}
+
+.albums-found-popin .mcs-popin-title,
+.tags-found-popin .mcs-popin-title,
+.filter-manager-popin .mcs-popin-title,
+.filter-form .filter-form-title,
+.tags-found-container .tag-item,
+.albums-found-container .album-item,
+.search-result-item,
+.filter-manager-close.pwg-icon-cancel:before,
+.tags-found-close.pwg-icon-cancel:before,
+.albums-found-close.pwg-icon-cancel:before,
+.ClosePopIn.pwg-icon-cancel:before{
+  color:#bbb!important;
+}
